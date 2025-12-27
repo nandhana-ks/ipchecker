@@ -2,22 +2,25 @@ import os
 import ipaddress
 
 ip = input("Enter IP address: ")
+print("\nAnalyzing IP address...\n")
 
-# Ping the IP once (Windows)
-response = os.system("ping -n 1 " + ip)  # Use "-c 1" on Linux/macOS
-
-# Check if IP is up or down
-if response == 0:
-    print(ip + " is UP")
-else:
-    print(ip + " is DOWN")
-
-# Check if IP is public or private
+# Check IP type (Public / Private)
 try:
     ip_obj = ipaddress.ip_address(ip)
+
     if ip_obj.is_private:
-        print(ip + " is a PRIVATE IP")
+        print("[+] IP Type   : Private")
     else:
-        print(ip + " is a PUBLIC IP")
+        print("[+] IP Type   : Public")
+
 except ValueError:
-    print("Invalid IP address")
+    print("[-] Invalid IP address")
+    exit()
+
+# Check IP reachability (Windows)
+response = os.system("ping -n 1 " + ip + " >nul 2>&1")
+
+if response == 0:
+    print("[+] IP Status : UP")
+else:
+    print("[-] IP Status : DOWN")
