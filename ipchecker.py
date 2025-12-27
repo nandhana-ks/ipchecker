@@ -1,15 +1,23 @@
 import os
+import ipaddress
 
-# Take IP input
 ip = input("Enter IP address: ")
 
-print("\nPinging the IP address...\n")
+# Ping the IP once (Windows)
+response = os.system("ping -n 1 " + ip)  # Use "-c 1" on Linux/macOS
 
-# Ping the IP once (Windows uses -n)
-response = os.system("ping -n 1 " + ip)
-
-# Check the result
+# Check if IP is up or down
 if response == 0:
     print(ip + " is UP")
 else:
     print(ip + " is DOWN")
+
+# Check if IP is public or private
+try:
+    ip_obj = ipaddress.ip_address(ip)
+    if ip_obj.is_private:
+        print(ip + " is a PRIVATE IP")
+    else:
+        print(ip + " is a PUBLIC IP")
+except ValueError:
+    print("Invalid IP address")
