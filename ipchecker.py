@@ -24,3 +24,4 @@ if response == 0:
     print("[+] IP Status : UP")
 else:
     print("[-] IP Status : DOWN")
+print(undefined_variable)
